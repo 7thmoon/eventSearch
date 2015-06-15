@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:tiles="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org"
+      lang="en">
+
+<head>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- This <head> section is only used for static prototyping purposes. At runtime, -->
+    <!-- Tiles will only use the body fragment defined with tiles:fragment="content",  --> 
+    <!-- as specified at the corresponding views.xml file.                             -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <title>Spring Travel: Spring MVC and Web Flow Reference Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <link rel="stylesheet" type="text/css" media="screen, projection" 
+          href="../../styles/blueprint/screen.css" />
+    
+    <link rel="stylesheet" type="text/css" media="print" 
+          href="../../styles/blueprint/print.css" />
+    
+    <!--[if lt IE 8]>
+        <link rel="stylesheet" type="text/css" media="screen, projection"
+              href="../../styles/blueprint/ie.css" />
+    <![endif]-->
+    
+    <link rel="stylesheet" type="text/css" media="screen" 
+          href="../../styles/booking.css" />
+
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <!-- Some styles and scripts are served from spring-js-resources-{ver}.jar at -->
+    <!-- runtime. Therefore not available for static prototyping. See the         -->
+    <!-- layouts/standard.html template file for detail.                          -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    
+</head>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- START of the content to be included in the execution result.  -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- Only the markup inside this <body> would be required in this  -->
+<!-- template if no static prototyping was intended.               -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<body tiles:fragment="content">
+
+<h1 th:text="${event.title}">The Herb Plaza</h1>
+<address th:object="${event.venue}">
+    <br />
+    <span th:text="*{address}">Thyme Square, 13</span>,
+    <span th:text="*{city}">Earth</span>,
+    <span th:text="*{country}"></span>
+    <br />
+</address>
+
+<div th:if="${performers}">
+	<table class="summary">
+        <thead>
+            <tr>
+                <th style="width: 150px; text-align:center">Performer Name</th>
+                <th style="width: 100px; text-align:center">Type</th>
+                <th style="width: 300px; text-align:center">Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="performer : ${performers}" >
+                <td th:text="${performer.name}" style="font-size: medium; text-align:center"></td>
+                <td th:text="${performer.type}" style="font-size: medium; text-align:center"></td>
+                <td><img th:src="${performer.image}" ></img></td>
+            </tr>
+            <tr th:unless="${performers}">
+                <td colspan="5">No performers found</td>
+            </tr>
+        </tbody>
+	</table>
+</div>  
+
+<a href="#" th:href="${event.url}">Check on SeatGeek</a>
+
+
+<div>
+	<form action="#" th:action="@{/hotels/booking(mode='embedded')}" method="get">
+    	<p>
+       	 Rate: <span th:text="${event.stats.lowest_price}"></span>
+    	</p>
+    	<input type="hidden" name="eventId" th:value="${event.id}" />
+   	 	<div>
+       		 <button type="submit">Book Event</button>
+    	</div>
+	</form>
+</div>
+</body>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- END of the content to be included in the execution result -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+</html>
